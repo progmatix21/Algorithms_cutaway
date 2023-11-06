@@ -93,18 +93,23 @@ if __name__ == "__main__":
     # Plots showing growth of time for these three methods
     print("Plotting runtimes...")
     
-    tdnm_times = []
-    tdwm_times = []
-    buwm_times = []
+    max_num = 30
+
+    # Allocate memory in advance
+    tdnm_times = [0]*(max_num+5)
+    tdwm_times = [0]*(max_num+5)
+    buwm_times = [0]*(max_num+5)
     
-    for n in tqdm(range(1,25)):
-        tdnm_times.append(timed_fib_tdnm(n)['time'])
-        tdwm_times.append(timed_fib_tdwm(n)['time'])        
-        buwm_times.append(timed_fib_buwm(n)['time'])        
+    for n in tqdm(range(1,max_num)):
+        tdnm_times[n] = timed_fib_tdnm(n)['time']
+        tdwm_times[n] = timed_fib_tdwm(n)['time']
+        buwm_times[n] = timed_fib_buwm(n)['time']
         
-    plt.plot(tdnm_times,label = "tdnm")
-    plt.plot(tdwm_times,label = "tdwm")
-    plt.plot(buwm_times,label = "buwm")
+    plt.plot(tdnm_times[1:max_num],label = "tdnm",lw=6,alpha=0.4)
+    plt.plot(tdwm_times[1:max_num],':',label = "tdwm",lw=3,alpha=0.7)
+    plt.plot(buwm_times[1:max_num],label = "buwm",lw=6,alpha=0.4)
+    plt.xlabel("n")
+    plt.ylabel("run time")
     plt.title("Fibonacci run times")
     plt.grid(visible=True)
     plt.legend(loc='best')
